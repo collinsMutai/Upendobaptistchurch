@@ -9,7 +9,7 @@
    Top Info Bar
 ========================= */
 .top-nav {
-  background: #4F320E;
+  background: #4f320e;
   color: #f3e9db;
   font-size: 0.85rem;
   padding: 1rem 6rem !important;
@@ -60,11 +60,11 @@
   position: relative;
   z-index: 1000;
   min-height: 64px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .navbar__logo a {
-  color: #4F320E; /* logo matches link color */
+  color: #4f320e; /* logo matches link color */
   text-decoration: none;
   font-size: 1.4rem;
   font-weight: bold;
@@ -73,13 +73,15 @@
 /* Contact button */
 .navbar .contact-btn,
 .mobile-menu .contact-btn {
-  background: #EBD5B8;
-  color: #4F320E;
+  background: #ebd5b8;
+  color: #4f320e;
   padding: 1rem 1.2rem !important;
   border-radius: 6px;
   font-weight: 600;
   text-decoration: none;
-  transition: background 0.25s ease, transform 0.2s ease;
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease;
 }
 
 .navbar .contact-btn:hover,
@@ -92,7 +94,6 @@
 .mobile-menu .contact-btn.active {
   border-bottom: none;
 }
-
 
 /* =========================
    Hamburger
@@ -109,7 +110,7 @@
 
 .hamburger span {
   height: 3px;
-  background: #4F320E; /* dark brown lines */
+  background: #4f320e; /* dark brown lines */
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -149,21 +150,20 @@
   z-index: 1600; /* ABOVE overlay but below hamburger if needed */
 }
 
-
 .mobile-menu.show {
   transform: translateX(0);
 }
 
 .mobile-menu a {
-  color: #4F320E;       /* menu link color */
+  color: #4f320e; /* menu link color */
   text-decoration: none;
   font-size: 1.1rem;
   transition: color 0.2s ease;
 }
 
 .mobile-menu a.active {
-  border-bottom: 2px solid #EBD5B8; /* underline for active link */
-  padding-bottom: 2px;              /* adjust spacing */
+  border-bottom: 2px solid #ebd5b8; /* underline for active link */
+  padding-bottom: 2px; /* adjust spacing */
 }
 
 /* =========================
@@ -178,9 +178,8 @@
 .mobile-social a svg {
   width: 20px;
   height: 20px;
-  stroke: #4F320E; /* dark brown icons */
+  stroke: #4f320e; /* dark brown icons */
 }
-
 
 /* =========================
    Mobile menu overlay
@@ -191,7 +190,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5); /* dark semi-transparent overlay */
+  background: rgba(0, 0, 0, 0.5); /* dark semi-transparent overlay */
   z-index: 1500; /* below the mobile menu but above other content */
   opacity: 0;
   visibility: hidden;
@@ -202,7 +201,6 @@
   opacity: 1;
   visibility: visible;
 }
-
 
 /* =========================
    Desktop
@@ -266,5 +264,27 @@
   }
   .navbar {
     padding: 1.5rem 1rem !important;
+  }
+  .mobile-menu .contact-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+   .mobile-menu li {
+    width: 100%;
+  }
+
+  .mobile-menu li a {
+    display: block;
+    width: 100%;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #e6dccb; /* soft divider */
+  }
+
+  /* Remove line from last item if desired */
+  .mobile-menu li:last-child a {
+    border-bottom: none;
   }
 }
