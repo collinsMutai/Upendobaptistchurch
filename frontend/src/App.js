@@ -32,7 +32,7 @@ import ManageSermons from "./pages/Dashboard/ManageSermons";
 import ManageBlog from "./pages/Dashboard/ManageBlog";
 import ManageDonations from "./pages/Dashboard/ManageDonations";
 import Users from "./pages/Dashboard/Users";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 
 import ProtectedRoute from "./router/ProtectedRoute";
 
