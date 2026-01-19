@@ -9,10 +9,10 @@
    Top Info Bar
 ========================= */
 .top-nav {
-  background: #3B260A;
+  background: #4F320E;
   color: #f3e9db;
   font-size: 0.85rem;
-  padding: 0.75rem 2.5rem;
+  padding: 1rem 6rem !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -51,7 +51,7 @@
    Navbar
 ========================= */
 .navbar {
-  padding: 0.75rem 2.5rem;
+  padding: 2.5rem 6rem !important;
   background: #ffffff;
   color: #333333;
   display: flex;
@@ -69,6 +69,30 @@
   font-size: 1.4rem;
   font-weight: bold;
 }
+
+/* Contact button */
+.navbar .contact-btn,
+.mobile-menu .contact-btn {
+  background: #EBD5B8;
+  color: #4F320E;
+  padding: 1rem 1.2rem !important;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.navbar .contact-btn:hover,
+.mobile-menu .contact-btn:hover {
+  background: #e2c9a8;
+  transform: translateY(-1px);
+}
+
+/* Active state (optional) */
+.mobile-menu .contact-btn.active {
+  border-bottom: none;
+}
+
 
 /* =========================
    Hamburger
@@ -227,7 +251,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem !important;
   }
 
   .top-nav__left {
@@ -239,5 +263,8 @@
     gap: 0.5rem;
     width: auto;
     justify-content: flex-start;
+  }
+  .navbar {
+    padding: 1.5rem 1rem !important;
   }
 }

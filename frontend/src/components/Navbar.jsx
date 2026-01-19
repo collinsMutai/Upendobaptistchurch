@@ -90,7 +90,16 @@ export default function Navbar() {
           <li><NavLink to="/sermons" onClick={closeMenu}>Sermons</NavLink></li>
           <li><NavLink to="/blog" onClick={closeMenu}>Blog</NavLink></li>
           <li><NavLink to="/give" onClick={closeMenu}>Give</NavLink></li>
-          <li><NavLink to="/contact" onClick={closeMenu}>Contact</NavLink></li>
+<li>
+  <NavLink
+    to="/contact"
+    onClick={closeMenu}
+    className="contact-btn"
+  >
+    Contact
+  </NavLink>
+</li>
+
 
           {/* Mobile Social Icons */}
           <li className="mobile-social">
