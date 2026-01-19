@@ -52,10 +52,25 @@ const HeroSlider = () => {
           <div className="overlay">
             <h1>{slide.title}</h1>
             <p>{slide.subtitle}</p>
+            <button
+              className="hero-btn"
+              onClick={() => (window.location.href = "/contact")}
+            >
+              Join Us This Sunday
+            </button>
           </div>
         </div>
       ))}
-
+      {/* Slide indicators */}
+      <div className="indicators">
+        {slides.map((_, i) => (
+          <span
+            key={i}
+            className={`indicator ${i === current ? "active" : ""}`}
+            onClick={() => setCurrent(i)}
+          />
+        ))}
+      </div>
       <button className="nav prev" onClick={prevSlide}>
         ❮
       </button>
