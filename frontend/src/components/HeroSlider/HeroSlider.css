@@ -2,22 +2,34 @@
   position: relative;
   height: 100vh;
   overflow: hidden;
+  perspective: 1200px;
 }
 
+/* ===== SLIDE ANIMATION (BACKGROUND) ===== */
 .slide {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
+
   opacity: 0;
-  transition: opacity 1s ease-in-out;
+
+  /* Slow zoom-away parallax */
+  transform: scale(1.08) translateY(-20px);
+  transition:
+    opacity 1.8s ease,
+    transform 3.2s cubic-bezier(0.22, 1, 0.36, 1);
+
+  will-change: transform, opacity;
 }
 
 .slide.active {
   opacity: 1;
   z-index: 1;
+  transform: scale(1) translateY(0);
 }
 
+/* ===== OVERLAY ===== */
 .overlay {
   position: absolute;
   inset: 0;
@@ -31,16 +43,64 @@
   padding: 20px;
 }
 
+/* ===== CAPTION INITIAL STATE ===== */
+.overlay h1,
+.overlay p,
+.hero-btn {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 1s ease,
+    transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .overlay h1 {
   font-size: 3rem;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .overlay p {
   font-size: 1.2rem;
 }
 
-/* Navigation buttons */
+/* ===== CAPTION ANIMATE IN ===== */
+.slide.active .overlay h1 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.6s;
+}
+
+.slide.active .overlay p {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.9s;
+}
+
+.slide.active .hero-btn {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.2s;
+}
+
+/* ===== BUTTON ===== */
+.hero-btn {
+  margin-top: 25px;
+  padding: 18px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4f320e;
+  background-color: #ebd5b8;
+  border: none;
+  cursor: pointer;
+}
+
+.hero-btn:hover {
+  background-color: #4f320e;
+  color: #ebd5b8;
+  transform: translateY(-2px);
+}
+
+/* ===== NAVIGATION ===== */
 .nav {
   position: absolute;
   top: 50%;
@@ -54,40 +114,17 @@
   z-index: 2;
 }
 
-.nav.prev {
-  left: 20px;
-}
-
-.nav.next {
-  right: 20px;
-}
+.nav.prev { left: 20px; }
+.nav.next { right: 20px; }
 
 .nav:hover {
   background: rgba(0, 0, 0, 0.7);
 }
 
-.hero-btn {
-  margin-top: 25px;
-  padding: 18px 30px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #4f320e;
-  background-color: #ebd5b8;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.hero-btn:hover {
-  background-color: #4f320e;
-  color: #ebd5b8;
-  transform: translateY(-2px);
-}
-
-/* Slide indicators (BOTTOM CENTER) */
+/* ===== INDICATORS ===== */
 .indicators {
   position: absolute;
-  bottom: 40px;          /* classic slider placement */
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -111,4 +148,38 @@
 .indicator.active {
   background-color: #4f320e;
   transform: scale(1.25);
+}
+
+/* ===== MOBILE OPTIMIZATION ===== */
+@media (max-width: 768px) {
+  .hero-slider {
+    height: 80vh;      /* ideal balance */
+    min-height: 520px; /* prevents it from being too short */
+  }
+  /* Hide navigation arrows */
+  .nav {
+    display: none;
+  }
+
+  /* Reduce caption sizes */
+  .overlay h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .overlay p {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  /* Button size tweak */
+  .hero-btn {
+    padding: 14px 22px;
+    font-size: 0.95rem;
+  }
+
+  /* Reduce parallax intensity on mobile */
+  .slide {
+    transform: scale(1.04) translateY(-10px);
+  }
 }

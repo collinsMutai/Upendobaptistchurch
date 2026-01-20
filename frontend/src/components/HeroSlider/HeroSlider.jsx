@@ -38,7 +38,9 @@ const HeroSlider = () => {
   };
 
   const prevSlide = () => {
-    setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    setCurrent((prev) =>
+      prev === 0 ? slides.length - 1 : prev - 1
+    );
   };
 
   return (
@@ -61,7 +63,8 @@ const HeroSlider = () => {
           </div>
         </div>
       ))}
-      {/* Slide indicators */}
+
+      {/* Indicators */}
       <div className="indicators">
         {slides.map((_, i) => (
           <span
@@ -71,12 +74,10 @@ const HeroSlider = () => {
           />
         ))}
       </div>
-      <button className="nav prev" onClick={prevSlide}>
-        ❮
-      </button>
-      <button className="nav next" onClick={nextSlide}>
-        ❯
-      </button>
+
+      {/* Navigation */}
+      <button className="nav prev" onClick={prevSlide}>❮</button>
+      <button className="nav next" onClick={nextSlide}>❯</button>
     </section>
   );
 };
