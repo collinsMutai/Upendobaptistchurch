@@ -145,7 +145,9 @@ const ChurchEventsBanner = () => {
 
       {/* Column 4 – Button */}
       <div className="event-col button-col">
-        <button onClick={() => navigate("/events")}  className="all-events-btn">All Events</button>
+        <button onClick={() => navigate("/events")} className="all-events-btn">
+          All Events
+        </button>
       </div>
     </section>
   );

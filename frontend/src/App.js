@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import WhatToExpect from "./pages/WhatToExpect";
 import Location from "./pages/Location";
-import Events from "./pages/Events";
+import EventsPage from "./pages/EventsPage";
 import EventDetails from "./pages/EventDetails";
 import Sermons from "./pages/Sermons";
 import SermonDetails from "./pages/SermonDetails";
@@ -53,7 +53,7 @@ export default function App() {
         <Route path="/what-to-expect" element={<WhatToExpect />} />
         <Route path="/location" element={<Location />} />
 
-        <Route path="/events" element={<Events />} />
+        <Route path="/events" element={<EventsPage />} />
         <Route path="/events/:id" element={<EventDetails />} />
 
         <Route path="/sermons" element={<Sermons />} />

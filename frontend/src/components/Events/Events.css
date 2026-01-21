@@ -1,0 +1,143 @@
+/* ===============================
+   EVENTS PAGE LAYOUT
+================================ */
+.events-page {
+  padding: 40px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.events-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #4f320e;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* ===============================
+   EVENTS GRID
+================================ */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+/* ===============================
+   EVENT CARD
+================================ */
+.event-card {
+  background-color: #f8f1e7;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(79, 50, 14, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+}
+
+/* ===============================
+   IMAGE + DATE OVERLAY
+================================ */
+.event-image-wrapper {
+  position: relative;
+}
+
+.event-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+/* DATE BADGE */
+.event-date-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background-color: rgba(79, 50, 14, 0.9);
+  padding: 8px 10px;
+  border-radius: 6px;
+  text-align: center;
+  line-height: 1;
+}
+
+.event-date-badge .event-day {
+  font-size: 20px;
+  font-weight: 700;
+  color: #f5c542;
+  display: block;
+}
+
+.event-date-badge .event-month {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  margin-top: 2px;
+  display: block;
+  color: #ffffff;
+}
+
+/* ===============================
+   EVENT CONTENT
+================================ */
+.event-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.event-content h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #4f320e;
+}
+
+.event-content p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* ===============================
+   EVENT META (TIME & LOCATION)
+================================ */
+.event-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #4f320e;
+}
+
+.event-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.event-meta svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: #4f320e;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 600px) {
+  .event-image {
+    height: 160px;
+  }
+
+  .events-title {
+    font-size: 26px;
+  }
+}
