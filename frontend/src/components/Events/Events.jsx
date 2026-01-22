@@ -1,74 +1,132 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import "./Events.css";
 
 const Events = () => {
   const events = useSelector((state) => state.events.list);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("date-asc");
+  const [visibleCount, setVisibleCount] = useState(6);
+  const [loading, setLoading] = useState(false);
+
+  const getEventDate = (event) => {
+    const year = new Date().getFullYear();
+    return new Date(
+      `${event.month || "Jan"} ${event.day || 1}, ${year} ${event.time || "00:00"}`
+    );
+  };
+
+  // Recurring events to pin at top
+  const pinnedEvents = events.filter((event) =>
+    ["sunday worship service", "weekly prayer meeting"].includes(event.title.toLowerCase())
+  );
+
+  // Filter and sort other events
+  const otherEvents = useMemo(
+    () =>
+      events
+        .filter(
+          (event) =>
+            !["sunday worship service", "weekly prayer meeting"].includes(
+              event.title.toLowerCase()
+            )
+        )
+        .filter(
+          (event) =>
+            event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (event.month && event.month.toLowerCase().includes(searchTerm.toLowerCase()))
+        ),
+    [events, searchTerm]
+  );
+
+  const sortedOtherEvents = useMemo(() => {
+    return otherEvents.sort((a, b) => {
+      switch (sortOption) {
+        case "title-asc":
+          return a.title.localeCompare(b.title);
+        case "title-desc":
+          return b.title.localeCompare(a.title);
+        case "date-desc":
+          return getEventDate(b) - getEventDate(a);
+        case "date-asc":
+        default:
+          return getEventDate(a) - getEventDate(b);
+      }
+    });
+  }, [otherEvents, sortOption]);
+
+  // Combine pinned events + sorted other events
+  const visibleEvents = [...pinnedEvents, ...sortedOtherEvents].slice(0, visibleCount);
+
+  const handleLoadMore = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setVisibleCount((prev) => prev + 3);
+      setLoading(false);
+    }, 600);
+  };
+
   return (
     <section className="events-page">
       <h2 className="events-title">Upcoming Events</h2>
-      <div className="events-grid">
-        {events.map((event) => (
-          <div key={event.id} className="event-card">
-            <div className="event-image-wrapper">
-              <img src={event.image} alt={event.title} className="event-image" />
 
-              {/* DATE OVERLAY */}
-              <div className="event-date-badge">
-                <span className="event-day">{event.day}</span>
-                <span className="event-month">{event.month}</span>
-              </div>
-            </div>
+      <div className="sort-controls">
+        <input
+          type="text"
+          placeholder="Search by name or month..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="event-search"
+        />
 
-            <div className="event-content">
-              <h3>{event.title}</h3>
-              <p>{event.description}</p>
-              <div className="event-meta">
-                <span className="event-time">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M5 13a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                    <path d="M12 10l0 3l2 0" />
-                    <path d="M7 4l-2.75 2" />
-                    <path d="M17 4l2.75 2" />
-                  </svg>
-                  <span>{event.time}</span>
-                </span>
-
-                <span className="event-location">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-                    <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0" />
-                  </svg>
-                  <span>{event.location}</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        ))}
+        <select
+          value={sortOption}
+          onChange={(e) => setSortOption(e.target.value)}
+        >
+          <option value="date-asc">Date (Earliest → Latest)</option>
+          <option value="date-desc">Date (Latest → Earliest)</option>
+          <option value="title-asc">Name (A → Z)</option>
+          <option value="title-desc">Name (Z → A)</option>
+        </select>
       </div>
+
+      <div className="events-grid">
+        {visibleEvents.length > 0 ? (
+          visibleEvents.map((event) => (
+            <div key={event.id} className="event-card">
+              <div className="event-image-wrapper">
+                <img src={event.image} alt={event.title} className="event-image" />
+                <div className="event-date-badge">
+                  <span className="event-day">{event.day}</span>
+                  {event.month && <span className="event-month">{event.month}</span>}
+                </div>
+              </div>
+
+              <div className="event-content">
+                <h3>{event.title}</h3>
+                <p>{event.description}</p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p style={{ textAlign: "center", gridColumn: "1 / -1" }}>
+            No events found
+          </p>
+        )}
+      </div>
+
+      {visibleCount < sortedOtherEvents.length + pinnedEvents.length && (
+        <div style={{ textAlign: "center", marginTop: "24px" }}>
+          <button
+            className="load-more-btn"
+            onClick={handleLoadMore}
+            disabled={loading}
+          >
+            {loading ? <span className="spinner"></span> : "Load More"}
+          </button>
+        </div>
+      )}
     </section>
   );
 };

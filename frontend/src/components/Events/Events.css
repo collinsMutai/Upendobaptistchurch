@@ -11,8 +11,57 @@
   font-size: 32px;
   font-weight: 700;
   color: #4f320e;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   text-align: center;
+}
+
+/* ===============================
+   SEARCH + SORT CONTROLS
+================================ */
+.sort-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  font-size: 14px;
+  color: #4f320e;
+}
+
+/* SEARCH INPUT */
+.event-search {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(79, 50, 14, 0.4);
+  background-color: #f8f1e7;
+  color: #4f320e;
+  font-size: 14px;
+  width: 220px;
+}
+
+.event-search::placeholder {
+  color: rgba(79, 50, 14, 0.6);
+}
+
+.event-search:focus {
+  outline: none;
+  border-color: #4f320e;
+}
+
+/* SORT SELECT */
+.sort-controls select {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(79, 50, 14, 0.4);
+  background-color: #f8f1e7;
+  color: #4f320e;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.sort-controls select:focus {
+  outline: none;
+  border-color: #4f320e;
 }
 
 /* ===============================
@@ -20,8 +69,9 @@
 ================================ */
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
+  justify-items: center; /* keeps cards centered */
 }
 
 /* ===============================
@@ -35,6 +85,8 @@
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
+  width: 100%;
+  max-width: 320px; /* prevents stretching */
 }
 
 .event-card:hover {
@@ -129,6 +181,47 @@
   color: #4f320e;
 }
 
+/* LOAD MORE BUTTON */
+.load-more-btn {
+  padding: 10px 20px;
+  background-color: #4f320e;
+  color: #f8f1e7;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.load-more-btn:hover {
+  background-color: #6a4515;
+}
+
+.load-more-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* SPINNER */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #f8f1e7;
+  border-top: 2px solid #4f320e;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
 /* ===============================
    RESPONSIVE
 ================================ */
@@ -139,5 +232,14 @@
 
   .events-title {
     font-size: 26px;
+  }
+
+  .sort-controls {
+    /* flex-direction: column; */
+    gap: 8px;
+  }
+
+  .event-search {
+    width: 100%;
   }
 }
