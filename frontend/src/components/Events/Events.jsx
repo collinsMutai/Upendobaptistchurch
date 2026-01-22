@@ -17,21 +17,26 @@ const Events = () => {
     );
   };
 
-  // Recurring events to pin at top
-  const pinnedEvents = events.filter((event) =>
-    ["sunday worship service", "weekly prayer meeting"].includes(event.title.toLowerCase())
+  const isPinnedEvent = (title) =>
+    ["sunday worship service", "weekly prayer meeting"].includes(title.toLowerCase());
+
+  // Filter pinned events that match search
+  const pinnedEvents = useMemo(
+    () =>
+      events.filter(
+        (event) =>
+          isPinnedEvent(event.title) &&
+          (event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (event.month && event.month.toLowerCase().includes(searchTerm.toLowerCase())))
+      ),
+    [events, searchTerm]
   );
 
   // Filter and sort other events
   const otherEvents = useMemo(
     () =>
       events
-        .filter(
-          (event) =>
-            !["sunday worship service", "weekly prayer meeting"].includes(
-              event.title.toLowerCase()
-            )
-        )
+        .filter((event) => !isPinnedEvent(event.title))
         .filter(
           (event) =>
             event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
