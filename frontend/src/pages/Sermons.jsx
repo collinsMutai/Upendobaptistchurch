@@ -1,9 +1,10 @@
 import React from 'react'
+import Sermons from '../components/Sermons/Sermons'
 
-const Sermons = () => {
+const SermonsPage = () => {
   return (
-    <div>Sermons</div>
+    <Sermons />
   )
 }
 
-export default Sermons
+export default SermonsPage

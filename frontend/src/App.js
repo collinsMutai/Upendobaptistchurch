@@ -13,7 +13,7 @@ import WhatToExpect from "./pages/WhatToExpect";
 import Location from "./pages/Location";
 import EventsPage from "./pages/EventsPage";
 import EventDetails from "./pages/EventDetails";
-import Sermons from "./pages/Sermons";
+import SermonsPage from "./pages/Sermons";
 import SermonDetails from "./pages/SermonDetails";
 import Ministries from "./pages/Ministries";
 import MinistryDetails from "./pages/MinistryDetails";
@@ -68,7 +68,7 @@ export default function App() {
         <Route path="/events" element={<EventsPage />} />
         <Route path="/events/:id" element={<EventDetails />} />
 
-        <Route path="/sermons" element={<Sermons />} />
+        <Route path="/sermons" element={<SermonsPage />} />
         <Route path="/sermons/:id" element={<SermonDetails />} />
 
         <Route path="/ministries" element={<Ministries />} />
