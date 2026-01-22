@@ -10,6 +10,7 @@
   color: #4f320e;
   align-items: center;
   width: 100%;
+  border-radius: 12px;
 }
 
 /* ===============================
@@ -30,7 +31,7 @@
 }
 
 .event-day {
-  font-size: 36px;
+  font-size: 42px;
   font-weight: 700;
   color: #f5c542;
   line-height: 1;
@@ -63,18 +64,22 @@
 }
 
 /* ===============================
-   COLUMN 3 – TIMER (CLOCK STYLE)
+   COLUMN 3 – TIMER (MINIMAL STYLE)
 ================================ */
 .timer-col {
   justify-content: center;
 }
 
 .timer-box.clock-style {
-  display: grid;
-  grid-template-columns: auto 20px auto 20px auto 20px auto;
+  display: flex;
   align-items: center;
-  gap: 12px;
-  text-align: center;
+  gap: 16px;
+}
+
+.time-unit-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .time-unit {
@@ -84,10 +89,9 @@
 }
 
 .time-unit span {
-  font-size: 52px;
-  font-weight: 500;
+  font-size: 48px;
+  font-weight: 600;
   color: #f5c542;
-  line-height: 1;
 }
 
 .time-unit small {
@@ -96,19 +100,17 @@
   margin-top: 4px;
 }
 
-/* ===============================
-   CLOCK DOTS (STATIC)
-================================ */
+/* Clock dots (static, no animation) */
 .clock-dots {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .clock-dots span {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   background-color: #f5c542;
   border-radius: 50%;
 }
@@ -128,6 +130,7 @@
   color: #4f320e;
   background-color: #ebd5b8;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -138,6 +141,9 @@
   transform: translateY(-2px);
 }
 
+/* ===============================
+   EVENT META (TIME + LOCATION)
+================================ */
 .event-meta {
   display: flex;
   flex-direction: column;
@@ -164,7 +170,6 @@
    RESPONSIVE DESIGN
 ================================ */
 @media (max-width: 900px) {
-  /* GRID: DATE + PREVIEW INLINE, TIMER & BUTTON BELOW */
   .events-banner {
     grid-template-columns: auto 1fr;
     grid-template-areas:
@@ -195,24 +200,21 @@
     margin: 0;
   }
 
-  /* TIME + LOCATION STACKED */
   .event-meta {
     flex-direction: column;
     gap: 4px;
     align-items: flex-start;
   }
 
-  /* TIMER VISIBLE */
   .timer-col {
     grid-area: timer;
     justify-content: center;
   }
 
   .timer-box.clock-style {
-    grid-template-columns: auto 14px auto 14px auto 14px auto;
+    gap: 10px;
   }
 
-  /* BUTTON VISIBLE */
   .button-col {
     grid-area: button;
     justify-content: center;

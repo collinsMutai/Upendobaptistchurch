@@ -1,4 +1,10 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setEvents } from "./store/eventsSlice";
+
+/* Events Data */
+import eventsData from "./store/data/events";
 
 /* Public Pages */
 import Home from "./pages/Home";
@@ -32,21 +38,27 @@ import ManageSermons from "./pages/Dashboard/ManageSermons";
 import ManageBlog from "./pages/Dashboard/ManageBlog";
 import ManageDonations from "./pages/Dashboard/ManageDonations";
 import Users from "./pages/Dashboard/Users";
-import Navbar from "./components/Navbar/Navbar";
 
+import Navbar from "./components/Navbar/Navbar";
 import ProtectedRoute from "./router/ProtectedRoute";
 
 export default function App() {
-  // Replace with real auth logic
+  const dispatch = useDispatch();
+
+  // Replace with real auth logic later
   const isAuthenticated = false;
   const isAdmin = false;
 
+  // 🔥 Load events once into Redux
+  useEffect(() => {
+    dispatch(setEvents(eventsData));
+  }, [dispatch]);
+
   return (
     <Router>
-            <Navbar />
+      <Navbar />
 
       <Routes>
-
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -73,11 +85,11 @@ export default function App() {
         <Route path="/volunteer" element={<Volunteer />} />
         <Route path="/contact" element={<Contact />} />
 
-        {/* Auth Routes */}
+        {/* Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Admin Routes */}
+        {/* Admin */}
         <Route
           path="/admin"
           element={
@@ -134,7 +146,6 @@ export default function App() {
 
         {/* 404 */}
         <Route path="*" element={<NotFound />} />
-
       </Routes>
     </Router>
   );

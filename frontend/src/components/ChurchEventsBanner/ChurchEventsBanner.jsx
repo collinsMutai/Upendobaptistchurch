@@ -1,23 +1,61 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "./ChurchEventsBanner.css";
 
 const ChurchEventsBanner = () => {
   const navigate = useNavigate();
-  // Countdown Logic
+  const events = useSelector((state) => state.events.list); // Get events from Redux
+
+  const monthMap = {
+    JAN: 0,
+    FEB: 1,
+    MAR: 2,
+    APR: 3,
+    MAY: 4,
+    JUN: 5,
+    JUL: 6,
+    AUG: 7,
+    SEP: 8,
+    OCT: 9,
+    NOV: 10,
+    DEC: 11,
+  };
+
+  // Find next upcoming event
+  const parseEventDate = (event) => {
+    const month = monthMap[event.month.toUpperCase()];
+    const day = parseInt(event.day, 10);
+
+    let [time, modifier] = event.time.split(" ");
+    let [hours, minutes] = time.split(":").map(Number);
+
+    if (modifier === "PM" && hours < 12) hours += 12;
+    if (modifier === "AM" && hours === 12) hours = 0;
+
+    return new Date(2026, month, day, hours, minutes);
+  };
+
+  const nextEvent = events
+    .filter((event) => parseEventDate(event) > new Date())
+    .sort((a, b) => parseEventDate(a) - parseEventDate(b))[0];
+
+  // Countdown logic
   const calculateTimeLeft = () => {
-    const eventDate = new Date("2026-03-24T09:00:00"); // Set your event date here
+    if (!nextEvent) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
     const now = new Date();
-    const difference = eventDate - now;
+    const difference = parseEventDate(nextEvent) - now;
 
-    let days = Math.floor(difference / (1000 * 60 * 60 * 24));
-    let hours = Math.floor(
-      (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-    );
-    let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+    if (difference <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
 
-    return { days, hours, minutes, seconds };
+    const totalSeconds = Math.floor(difference / 1000);
+    return {
+      days: Math.floor(totalSeconds / (24 * 3600)),
+      hours: Math.floor((totalSeconds % (24 * 3600)) / 3600),
+      minutes: Math.floor((totalSeconds % 3600) / 60),
+      seconds: totalSeconds % 60,
+    };
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -27,8 +65,12 @@ const ChurchEventsBanner = () => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
-    return () => clearInterval(timer); // Cleanup on component unmount
-  }, []);
+    return () => clearInterval(timer);
+  }, [nextEvent]);
+
+  if (!nextEvent) return null; // No upcoming events
+
+  const units = ["days", "hours", "minutes", "seconds"];
 
   return (
     <section className="events-banner">
@@ -37,15 +79,13 @@ const ChurchEventsBanner = () => {
         <span className="event-day">
           {timeLeft.days < 10 ? `0${timeLeft.days}` : timeLeft.days}
         </span>
-        <span className="event-month">MAR</span>
+        <span className="event-month">{nextEvent.month}</span>
       </div>
 
       {/* Column 2 – Event Preview */}
       <div className="event-col preview-col">
-        <h3>Sunday Worship Service</h3>
-        <p>Join us for a powerful time of worship, prayer, and teaching.</p>
-        {/* Start Time & Location */}
-        {/* Start Time & Location */}
+        <h3>{nextEvent.title}</h3>
+        <p>{nextEvent.description}</p>
         <div className="event-meta">
           <span className="event-time">
             <svg
@@ -66,7 +106,7 @@ const ChurchEventsBanner = () => {
               <path d="M7 4l-2.75 2" />
               <path d="M17 4l2.75 2" />
             </svg>
-            <span>9:00 AM</span>
+            <span>{nextEvent.time}</span>
           </span>
 
           <span className="event-location">
@@ -86,60 +126,39 @@ const ChurchEventsBanner = () => {
               <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
               <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0" />
             </svg>
-            <span>Main Sanctuary</span>
+            <span>{nextEvent.location}</span>
           </span>
         </div>
       </div>
 
-      {/* Column 3 – Timer (Clock Style) */}
+      {/* Column 3 – Timer with redesigned clock */}
       <div className="event-col timer-col">
         <div className="timer-box clock-style">
-          <div className="time-unit">
-            <span>
-              {timeLeft.days < 10 ? `0${timeLeft.days}` : timeLeft.days}
-            </span>
-            <small>Days</small>
-          </div>
-
-          <div className="clock-dots">
-            <span></span>
-            <span></span>
-          </div>
-
-          <div className="time-unit">
-            <span>
-              {timeLeft.hours < 10 ? `0${timeLeft.hours}` : timeLeft.hours}
-            </span>
-            <small>Hrs</small>
-          </div>
-
-          <div className="clock-dots">
-            <span></span>
-            <span></span>
-          </div>
-
-          <div className="time-unit">
-            <span>
-              {timeLeft.minutes < 10
-                ? `0${timeLeft.minutes}`
-                : timeLeft.minutes}
-            </span>
-            <small>Min</small>
-          </div>
-
-          <div className="clock-dots">
-            <span></span>
-            <span></span>
-          </div>
-
-          <div className="time-unit">
-            <span>
-              {timeLeft.seconds < 10
-                ? `0${timeLeft.seconds}`
-                : timeLeft.seconds}
-            </span>
-            <small>Sec</small>
-          </div>
+          {units.map((unit, index) => (
+            <div key={unit} className="time-unit-wrapper">
+              <div className="time-unit">
+                <span>
+                  {timeLeft[unit] < 10 ? `0${timeLeft[unit]}` : timeLeft[unit]}
+                </span>
+                <small>
+                  {unit === "days"
+                    ? "DAYS"
+                    : unit === "hours"
+                      ? "HRS"
+                      : unit === "minutes"
+                        ? "MINS"
+                        : "SECS"}
+                </small>
+              </div>
+              {/* Remove clock dots if you want, but keeping for now */}
+              {index < units.length - 1 && (
+                <div className="clock-dots">
+                  <span></span>
+                  <span></span>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </div>
 
